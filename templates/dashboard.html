@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+</head>
+<body class="container mt-5">
+    <h2>Welcome, {{ username }}!</h2>
+    <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a>
+
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeGuard - Women Safety App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            flex: 1;
+            min-width: 150px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .tab-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .tab-btn.active {
+            background: white;
+            color: #667eea;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: none;
+        }
+
+        .card.active {
+            display: block;
+        }
+
+        .sos-button {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
+            color: white;
+            border: 5px solid white;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 30px auto;
+            display: block;
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.5);
+            transition: all 0.3s;
+        }
+
+        .sos-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(255, 107, 107, 0.7);
+        }
+
+        .sos-button:active {
+            transform: scale(0.95);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .contacts-list {
+            margin-top: 20px;
+        }
+
+        .contact-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .contact-info {
+            flex: 1;
+        }
+
+        .contact-info h3 {
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .contact-info p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .btn-delete {
+            background: #dc3545;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-active {
+            background: #28a745;
+        }
+
+        .status-inactive {
+            background: #dc3545;
+        }
+
+        .location-info {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-danger {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .sos-button {
+                width: 150px;
+                height: 150px;
+                font-size: 20px;
+            }
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .quick-action-btn {
+            padding: 20px;
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .quick-action-btn:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛡️ SafeGuard</h1>
+            <p>Your Safety Companion</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('home')">Home</button>
+            <button class="tab-btn" onclick="showTab('register')">Register</button>
+            <button class="tab-btn" onclick="showTab('contacts')">Emergency Contacts</button>
+            <button class="tab-btn" onclick="showTab('location')">Location</button>
+            <button class="tab-btn" onclick="showTab('alerts')">Alerts</button>
+        </div>
+
+        <!-- Home Tab -->
+        <div id="home" class="card active">
+            <h2 style="text-align: center; margin-bottom: 20px;">Emergency SOS</h2>
+            <p style="text-align: center; color: #666; margin-bottom: 30px;">
+                Press and hold the button for 3 seconds to send SOS alert to your emergency contacts
+            </p>
+            
+            <button class="sos-button" id="sosButton">
+                PRESS FOR<br>SOS
+            </button>
+
+            <div class="location-info">
+                <h3>📍 Current Location Status</h3>
+                <p id="locationStatus">Waiting for location...</p>
+                <p id="coordinates" style="font-size: 14px; color: #666; margin-top: 5px;"></p>
+            </div>
+
+            <div class="quick-actions">
+                <div class="quick-action-btn" onclick="fakCall()">
+                    📞 Fake Call
+                </div>
+                <div class="quick-action-btn" onclick="shareLocation()">
+                    📍 Share Location
+                </div>
+                <div class="quick-action-btn" onclick="recordEvidence()">
+                    🎥 Record Evidence
+                </div>
+                <div class="quick-action-btn" onclick="nearbyHelp()">
+                    🏥 Nearby Help
+                </div>
+            </div>
+        </div>
+
+        <!-- Register Tab -->
+        <div id="register" class="card">
+            <h2>User Registration</h2>
+            <div id="registerAlert"></div>
+            
+            <form id="registerForm" onsubmit="registerUser(event)">
+                <div class="form-group">
+                    <label>Full Name *</label>
+                    <input type="text" id="regName" required placeholder="Enter your name">
+                </div>
+                
+                <div class="form-group">
+                    <label>Phone Number *</label>
+                    <input type="tel" id="regPhone" required placeholder="+91 1234567890">
+                </div>
+                
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="regEmail" placeholder="your.email@example.com">
+                </div>
+                
+                <div class="form-group">
+                    <label>Password *</label>
+                    <input type="password" id="regPassword" required placeholder="Create a password">
+                </div>
+                
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Blood Group</label>
+                        <select id="regBloodGroup">
+                            <option value="">Select</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Medical Conditions (if any)</label>
+                    <textarea id="regMedical" rows="3" placeholder="E.g., Diabetes, Asthma, Allergies..."></textarea>
+                </div>
+                
+                <button type="submit" class="btn">Register</button>
+            </form>
+        </div>
+
+        <!-- Emergency Contacts Tab -->
+        <div id="contacts" class="card">
+            <h2>Emergency Contacts</h2>
+            <p style="color: #666; margin-bottom: 20px;">These contacts will be notified when you trigger SOS</p>
+            
+            <div id="contactAlert"></div>
+            
+            <form id="contactForm" onsubmit="addContact(event)">
+                <div class="form-group">
+                    <label>User ID</label>
+                    <input type="number" id="contactUserId" required placeholder="Your User ID">
+                </div>
+                
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Contact Name *</label>
+                        <input type="text" id="contactName" required placeholder="Mom, Dad, Friend...">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Phone Number *</label>
+                        <input type="tel" id="contactPhone" required placeholder="+91 1234567890">
+                    </div>
+                </div>
+                
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Relationship</label>
+                        <input type="text" id="contactRelation" placeholder="Mother, Friend, etc.">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Priority</label>
+                        <select id="contactPriority">
+                            <option value="1">1 - Highest</option>
+                            <option value="2">2 - High</option>
+                            <option value="3">3 - Medium</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn">Add Emergency Contact</button>
+            </form>
+
+            <div class="contacts-list" id="contactsList">
+                <!-- Contacts will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Location Tab -->
+        <div id="location" class="card">
+            <h2>Location Tracking</h2>
+            <p style="color: #666; margin-bottom: 20px;">Your location is tracked for safety purposes</p>
+            
+            <div class="form-group">
+                <label>User ID</label>
+                <input type="number" id="locationUserId" placeholder="Your User ID">
+            </div>
+            
+            <button class="btn" onclick="updateLocation()">Update Current Location</button>
+            <button class="btn btn-secondary" onclick="startLocationTracking()">Start Auto-Tracking</button>
+            
+            <div class="location-info" style="margin-top: 20px;">
+                <h3>Current Location</h3>
+                <p id="currentLat">Latitude: --</p>
+                <p id="currentLon">Longitude: --</p>
+                <p id="currentAccuracy">Accuracy: --</p>
+                <p id="lastUpdate">Last Updated: --</p>
+            </div>
+        </div>
+
+        <!-- Alerts Tab -->
+        <div id="alerts" class="card">
+            <h2>Community Alerts</h2>
+            <p style="color: #666; margin-bottom: 20px;">View alerts from your community</p>
+            
+            <div class="form-group">
+                <label>Search Radius (km)</label>
+                <input type="number" id="alertRadius" value="5" min="1" max="50">
+            </div>
+            
+            <button class="btn" onclick="getNearbyAlerts()">Get Nearby Alerts</button>
+            
+            <div id="alertsList" style="margin-top: 20px;">
+                <!-- Alerts will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // API Base URL - Change this to your backend URL
+        const API_BASE = 'http://localhost:5000/api';
+        
+        let currentLocation = { lat: null, lon: null };
+        let locationTracking = null;
+
+        // Tab Navigation
+        function showTab(tabName) {
+            document.querySelectorAll('.card').forEach(card => {
+                card.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // SOS Button Handler
+        let sosTimer = null;
+        document.getElementById('sosButton').addEventListener('mousedown', function() {
+            sosTimer = setTimeout(() => {
+                triggerSOS();
+            }, 3000);
+        });
+
+        document.getElementById('sosButton').addEventListener('mouseup', function() {
+            clearTimeout(sosTimer);
+        });
+
+        document.getElementById('sosButton').addEventListener('mouseleave', function() {
+            clearTimeout(sosTimer);
+        });
+
+        // Get Current Location
+        function getCurrentLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        currentLocation.lat = position.coords.latitude;
+                        currentLocation.lon = position.coords.longitude;
+                        
+                        document.getElementById('locationStatus').textContent = 
+                            'Location acquired ✓';
+                        document.getElementById('coordinates').textContent = 
+                            `Lat: ${currentLocation.lat.toFixed(6)}, Lon: ${currentLocation.lon.toFixed(6)}`;
+                    },
+                    (error) => {
+                        document.getElementById('locationStatus').textContent = 
+                            'Location access denied. Please enable location.';
+                    }
+                );
+            }
+        }
+
+        // Initialize location on page load
+        getCurrentLocation();
+
+        // Register User
+        async function registerUser(event) {
+            event.preventDefault();
+            
+            const userData = {
+                name: document.getElementById('regName').value,
+                phone_number: document.getElementById('regPhone').value,
+                email: document.getElementById('regEmail').value,
+                password: document.getElementById('regPassword').value,
+                blood_group: document.getElementById('regBloodGroup').value,
+                medical_conditions: document.getElementById('regMedical').value
+            };
+
+            try {
+                const response = await fetch(`${API_BASE}/user/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(userData)
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showAlert('registerAlert', 'success', 
+                        `Registration successful! Your User ID is: ${data.user.id}`);
+                    document.getElementById('registerForm').reset();
+                } else {
+                    showAlert('registerAlert', 'danger', data.error);
+                }
+            } catch (error) {
+                showAlert('registerAlert', 'danger', 'Connection error. Please check if backend is running.');
+            }
+        }
+
+        // Add Emergency Contact
+        async function addContact(event) {
+            event.preventDefault();
+            
+            const contactData = {
+                user_id: parseInt(document.getElementById('contactUserId').value),
+                name: document.getElementById('contactName').value,
+                phone_number: document.getElementById('contactPhone').value,
+                relationship: document.getElementById('contactRelation').value,
+                priority: parseInt(document.getElementById('contactPriority').value)
+            };
+
+            try {
+                const response = await fetch(`${API_BASE}/emergency-contacts`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(contactData)
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showAlert('contactAlert', 'success', 'Emergency contact added successfully!');
+                    document.getElementById('contactForm').reset();
+                    loadContacts();
+                } else {
+                    showAlert('contactAlert', 'danger', data.error);
+                }
+            } catch (error) {
+                showAlert('contactAlert', 'danger', 'Connection error. Please check if backend is running.');
+            }
+        }
+
+        // Trigger SOS
+        async function triggerSOS() {
+            if (!currentLocation.lat || !currentLocation.lon) {
+                alert('Location not available. Please enable location services.');
+                return;
+            }
+
+            const userId = prompt('Enter your User ID:');
+            if (!userId) return;
+
+            const sosData = {
+                user_id: parseInt(userId),
+                latitude: currentLocation.lat,
+                longitude: currentLocation.lon,
+                alert_type: 'sos',
+                message: 'Emergency SOS triggered!'
+            };
+
+            try {
+                const response = await fetch(`${API_BASE}/sos/trigger`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(sosData)
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    alert('🚨 SOS Alert Sent!\n\nYour emergency contacts have been notified with your location.');
+                } else {
+                    alert('Failed to send SOS: ' + data.error);
+                }
+            } catch (error) {
+                alert('Connection error. Please check if backend is running.');
+            }
+        }
+
+        // Update Location
+        async function updateLocation() {
+            const userId = document.getElementById('locationUserId').value;
+            if (!userId) {
+                alert('Please enter your User ID');
+                return;
+            }
+
+            getCurrentLocation();
+            
+            setTimeout(async () => {
+                if (!currentLocation.lat || !currentLocation.lon) {
+                    alert('Location not available');
+                    return;
+                }
+
+                const locationData = {
+                    user_id: parseInt(userId),
+                    latitude: currentLocation.lat,
+                    longitude: currentLocation.lon,
+                    accuracy: 10
+                };
+
+                try {
+                    const response = await fetch(`${API_BASE}/location/update`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(locationData)
+                    });
+
+                    if (response.ok) {
+                        document.getElementById('currentLat').textContent = 
+                            `Latitude: ${currentLocation.lat.toFixed(6)}`;
+                        document.getElementById('currentLon').textContent = 
+                            `Longitude: ${currentLocation.lon.toFixed(6)}`;
+                        document.getElementById('lastUpdate').textContent = 
+                            `Last Updated: ${new Date().toLocaleString()}`;
+                        alert('Location updated successfully!');
+                    }
+                } catch (error) {
+                    alert('Connection error');
+                }
+            }, 1000);
+        }
+
+        // Get Nearby Alerts
+        async function getNearbyAlerts() {
+            if (!currentLocation.lat || !currentLocation.lon) {
+                getCurrentLocation();
+                setTimeout(getNearbyAlerts, 2000);
+                return;
+            }
+
+            const radius = document.getElementById('alertRadius').value;
+
+            try {
+                const response = await fetch(
+                    `${API_BASE}/community-alerts/nearby?latitude=${currentLocation.lat}&longitude=${currentLocation.lon}&radius=${radius}`
+                );
+
+                const data = await response.json();
+                
+                const alertsList = document.getElementById('alertsList');
+                if (data.alerts && data.alerts.length > 0) {
+                    alertsList.innerHTML = data.alerts.map(alert => `
+                        <div class="contact-item">
+                            <div class="contact-info">
+                                <h3>${alert.incident_type || 'Alert'}</h3>
+                                <p>${alert.description || 'No description'}</p>
+                                <p style="font-size: 12px; color: #999;">
+                                    Severity: ${alert.severity} | 
+                                    Location: ${alert.latitude.toFixed(4)}, ${alert.longitude.toFixed(4)}
+                                </p>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    alertsList.innerHTML = '<p style="text-align: center; color: #666;">No alerts found nearby. Stay safe!</p>';
+                }
+            } catch (error) {
+                alert('Connection error');
+            }
+        }
+
+        // Quick Actions
+        function fakCall() {
+            alert('📞 Fake Call Feature\n\nThis would trigger a fake incoming call to help you exit uncomfortable situations.');
+        }
+
+        function shareLocation() {
+            if (currentLocation.lat && currentLocation.lon) {
+                const locationUrl = `https://maps.google.com/?q=${currentLocation.lat},${currentLocation.lon}`;
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'My Current Location',
+                        text: 'I am sharing my location with you for safety',
+                        url: locationUrl
+                    });
+                } else {
+                    prompt('Copy this location link:', locationUrl);
+                }
+            } else {
+                alert('Location not available');
+            }
+        }
+
+        function recordEvidence() {
+            alert('🎥 Record Evidence\n\nThis feature would start audio/video recording for evidence collection.');
+        }
+
+        function nearbyHelp() {
+            if (currentLocation.lat && currentLocation.lon) {
+                const mapsUrl = `https://www.google.com/maps/search/police+station+hospital/@${currentLocation.lat},${currentLocation.lon},15z`;
+                window.open(mapsUrl, '_blank');
+            } else {
+                alert('Location not available');
+            }
+        }
+
+        // Helper function to show alerts
+        function showAlert(elementId, type, message) {
+            const alertDiv = document.getElementById(elementId);
+            alertDiv.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+            setTimeout(() => {
+                alertDiv.innerHTML = '';
+            }, 5000);
+        }
+
+        // Start auto location tracking
+        function startLocationTracking() {
+            if (locationTracking) {
+                clearInterval(locationTracking);
+                locationTracking = null;
+                alert('Location tracking stopped');
+                return;
+            }
+
+            const userId = document.getElementById('locationUserId').value;
+            if (!userId) {
+                alert('Please enter your User ID');
+                return;
+            }
+
+            locationTracking = setInterval(() => {
+                updateLocation();
+            }, 60000); // Update every minute
+
+            alert('Location tracking started! Updates every minute.');
+        }
+    </script>
+</body>
+</html>
+</body>
+</html>
