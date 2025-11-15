@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Safety App</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    #logs { border: 1px solid #ccc; padding: 10px; height: 250px; overflow-y: auto; background: #f9f9f9; }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">Women safety </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link active" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/upload">Upload</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/recommend">Recommendations</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/contact">Contact</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<!-- Navbar End -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Echo Guardians - Women Safety App</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            transition: background 1s ease;
+        }
+        body.alert-mode {
+            background: linear-gradient(135deg, #ff4500, #ff6347);
+            animation: ripple 0.5s infinite;
+        }
+        @keyframes ripple {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+        .hero {
+            text-align: center;
+            padding: 50px 20px;
+            background: url('https://via.placeholder.com/800x400/ffa500/000000?text=Echo+Shields') no-repeat center/cover;
+            position: relative;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+        }
+        .hero h1 {
+            font-size: 2.5em;
+            margin: 0;
+            z-index: 1;
+            position: relative;
+        }
+        .echo-wave {
+            width: 100%;
+            height: 150px;
+            margin: 20px auto;
+        }
+        .section {
+            padding: 20px;
+            text-align: center;
+        }
+        .btn {
+            background: #ffa500;
+            color: #1e3c72;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .btn:hover { transform: scale(1.05); box-shadow: 0 0 20px #ffa500; }
+        .voice-btn {
+            background: #ff4500;
+            animation: echo-pulse 1s infinite;
+        }
+        @keyframes echo-pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 69, 0, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 69, 0, 0); }
+        }
+        .shield {
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, #ffa500, #ff4500);
+            border-radius: 50%;
+            margin: 10px;
+            display: inline-block;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .shield:hover { transform: scale(1.2); }
+        .aura-meter {
+            width: 100%;
+            height: 20px;
+            background: #333;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        .aura-fill {
+            height: 100%;
+            background: linear-gradient(to right, #00ff00, #ffa500);
+            width: 0%;
+            transition: width 0.5s;
+        }
+        .badge {
+            background: gold;
+            color: #1e3c72;
+            padding: 5px 10px;
+            border-radius: 20px;
+            margin: 10px;
+            display: inline-block;
+            animation: sparkle 2s infinite;
+        }
+        @keyframes sparkle {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .map {
+            width: 100%;
+            height: 200px;
+            background: #ddd;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+        }
+        .alert {
+            background: #ff0000;
+            padding: 20px;
+            display: none;
+            animation: shield-flash 0.5s infinite alternate;
+        }
+        @keyframes shield-flash {
+            from { opacity: 1; box-shadow: 0 0 20px #ff0000; }
+            to { opacity: 0.5; box-shadow: 0 0 40px #ff0000; }
+        }
+        canvas {
+            border-radius: 10px;
+        }
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        .particle {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 165, 0, 0.5);
+            border-radius: 50%;
+            animation: float 10s infinite linear;
+        }
+        @keyframes float {
+            from { transform: translateY(100vh) rotate(0deg); }
+            to { transform: translateY(-100px) rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    <div class="hero">
+        <h1>She Secure Women Safety </h1>
+        <p>Your voice echoes into shields of protection. Say "Help" or "Save" to awaken them.</p>
+        <canvas class="echo-wave" id="waveCanvas"></canvas>
+    </div>
+
+    <div class="section">
+        <h2>Dashboard</h2>
+        <div class="aura-meter">
+            <div class="aura-fill" id="auraFill"></div>
+        </div>
+        <p>Safety Aura: <span id="auraLevel">0%</span> (Level 1)</p>
+        <div class="badge">Echo Badge: Shield Builder</div>
+        <button class="btn" onclick="changeTheme()">Switch Theme (Forest/Storm)</button>
+    </div>
+
+    <div class="section">
+        <h2>Build Your Shields</h2>
+        <input type="text" id="contact" placeholder="Add Guardian (e.g., +1234567890)">
+        <input type="text" id="trigger" placeholder="Custom Echo Word (default: help, save)">
+        <button class="btn" onclick="addGuardian()">Forge Shield</button>
+        <div id="shields"></div>
+        <button class="btn" onclick="recordAffirmation()">Record  Journal</button>
+        <audio id="journalAudio" controls style="display:none;"></audio>
+    </div>
+
+    <div class="section">
+        <h2>Voice Activation</h2>
+        <button class="btn voice-btn" id="voiceBtn" onclick="startVoice()">active voice</button>
+        <p id="status">Status: listening...</p>
+        <div class="map" id="map">Live Location: [Mock: 37.7749° N, 122.4194° W] <br> Safe Aura Zone: Home</div>
+    </div>
+
+    <div class="alert" id="alert">
+        <h2>Shields Deployed!</h2>
+        <p>Echo alert sent to guardians and police. Location shared. Breathe – you're protected.</p>
+        <button class="btn" onclick="enterZenMode()">Enter Zen Mode</button>
+    </div>
+
+    <script>
+        let recognition;
+        let guardians = [];
+        let triggerWords = ['help', 'save'];
+        let auraLevel = 0;
+        let canvas = document.getElementById('waveCanvas');
+        let ctx = canvas.getContext('2d');
+        let audioContext;
+        let analyser;
+        let dataArray;
+        let theme = 'forest'; // Default theme
+
+        // Particle effect
+        function createParticles() {
+            for (let i = 0; i < 20; i++) {
+                let particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                document.getElementById('particles').appendChild(particle);
+            }
+        }
+        createParticles();
+
+        // Theme switcher
+        function changeTheme() {
+            theme = theme === 'forest' ? 'storm' : 'forest';
+            document.body.style.background = theme === 'forest' ? 'linear-gradient(135deg, #228B22, #32CD32)' : 'linear-gradient(135deg, #2F4F4F, #696969)';
+            alert('Theme switched to ' + theme + ' – echoes adapt!');
+        }
+
+        // Aura meter
+        function updateAura(points) {
+            auraLevel = Math.min(auraLevel + points, 100);
+            document.getElementById('auraFill').style.width = auraLevel + '%';
+            document.getElementById('auraLevel').innerText = auraLevel + '% (Level ' + Math.floor(auraLevel / 20) + ')';
+        }
+
+        // Add guardian with shield
+        function addGuardian() {
+            const contact = document.getElementById('contact').value;
+            const customTrigger = document.getElementById('trigger').value;
+            if (contact) {
+                guardians.push(contact);
+                document.getElementById('shields').innerHTML += `<div class="shield" onclick="alert('Shield for ${contact} activated!')">${contact.slice(-4)}</div>`;
+                updateAura(20);
+            }
+            if (customTrigger) triggerWords.push(customTrigger.toLowerCase());
+        }
+
+        // Voice activation with wave visualization
+        function startVoice() {
+            if (!('webkitSpeechRecognition' in window)) {
+                alert('Voice not supported. Use backend echo.');
+                return;
+            }
+            recognition = new webkitSpeechRecognition();
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            recognition.onresult = function(event) {
+                let transcript = '';
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    transcript += event.results[i][0].transcript.toLowerCase();
+                }
+                document.getElementById('status').innerText = 'Echoing: ' + transcript;
+                drawWave(); // Visualize
+                if (triggerWords.some(word => transcript.includes(word))) {
+                    triggerAlert();
+                }
+            };
+            recognition.start();
+
+            // Audio setup for waves
+            navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+                audioContext = new AudioContext();
+                analyser = audioContext.createAnalyser();
+                analyser.fftSize = 256;
+                const source = audioContext.createMediaStreamSource(stream);
+                source.connect(analyser);
+                dataArray = new Uint8Array(analyser.frequencyBinCount);
+            });
+        }
+
+        // Draw echo waves
+        function drawWave() {
+            if (!analyser) return;
+            analyser.getByteFrequencyData(dataArray);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#ffa500';
+            for (let i = 0; i < dataArray.length; i++) {
+                let barHeight = dataArray[i] / 2;
+                ctx.fillRect(i * 4, canvas.height - barHeight, 3, barHeight);
+            }
+        }
+        setInterval(drawWave, 100);
+
+        // Trigger alert
+        function triggerAlert() {
+            document.body.classList.add('alert-mode');
+            document.getElementById('alert').style.display = 'block';
+            if (navigator.vibrate) navigator.vibrate(500); // Haptic
+            alert('Echo alert! Location: [Mock GPS]. Sending to: ' + guardians.join(', '));
+            updateAura(10);
+        }
+
+        // Zen mode
+        function enterZenMode() {
+            alert('Zen Mode: Breathe deeply. Your shields are strong.');
+            // Add breathing animation or audio here
+        }
+
+        // Record affirmation
+        function recordAffirmation() {
+            navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+                const recorder = new MediaRecorder(stream);
+                recorder.start();
+                setTimeout(() => {
+                    recorder.stop();
+                    recorder.ondataavailable = e => {
+                        const audio = document.getElementById('journalAudio');
+                        audio.src = URL.createObjectURL(e.data);
+                        audio.style.display = 'block';
+                    };
+                }, 5000);
+                alert('Recording 5s echo...');
+            });
+        }
+
+        // Mock GPS
+        navigator.geolocation.getCurrentPosition(function(pos) {
+            document.getElementById('map').innerText = `Live Location: ${pos.coords.latitude}° N, ${pos.coords.longitude}° W`;
+        });
+    </script>
+</body>
+</html>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    const logBox = document.getElementById("logs");
+    const eventSource = new EventSource("/logs");
+
+    eventSource.onmessage = function(event) {
+      const p = document.createElement("p");
+      p.textContent = event.data;
+      logBox.appendChild(p);
+      logBox.scrollTop = logBox.scrollHeight; // auto scroll
+    };
+  </script>
+</body>
+</html>
